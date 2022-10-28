@@ -67,6 +67,10 @@ function App() {
         value={formData.description}
       />
       <button onClick={createNote}>Create Note</button>
+      <input
+        type="file"
+        onChange={onChange}
+      />
       <div style={{marginBottom: 30}}>
         {
           notes.map(note => (
@@ -81,10 +85,6 @@ function App() {
           ))
         }
       </div>
-      <input
-        type="file"
-        onChange={onChange}
-      />
       <AmplifySignOut />
     </div>
   );

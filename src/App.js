@@ -74,6 +74,9 @@ function App() {
               <h2>{note.name}</h2>
               <p>{note.description}</p>
               <button onClick={() => deleteNote(note)}>Delete note</button>
+              {
+                note.image && <img src={note.image} style={{width: 400}} alt="" />
+              }
             </div>
           ))
         }
@@ -82,18 +85,6 @@ function App() {
         type="file"
         onChange={onChange}
       />
-      {
-        notes.map(note => (
-          <div key={note.id || note.name}>
-          <h2>{note.name}</h2>
-          <p>{note.description}</p>
-          <button onClick={() => deleteNote(note)}>Delete note</button>
-          {
-            note.image && <img src={note.image} style={{width: 400}} alt="" />
-          }
-          </div>
-        ))
-      }
       <AmplifySignOut />
     </div>
   );

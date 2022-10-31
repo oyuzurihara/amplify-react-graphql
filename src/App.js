@@ -13,6 +13,8 @@ import { listNotes } from './graphql/queries';
 import { createNote as createNoteMutation, deleteNote as deleteNoteMutation } from './graphql/mutations';
 import { dictionary } from './dictionary.js';
 import { API, Storage, I18n } from 'aws-amplify';
+import { SignIn } from './SignIn.js';
+import { ForgotPassword } from './ForgotPassword.js';
 
 const initialFormState = { name: '', description: '' }
 
@@ -66,26 +68,9 @@ function App() {
   
   return (
     <AmplifyAuthenticator>
-      <AmplifySignIn
-        slot="sign-in"
-        headerText="サインイン画面"
-        submitButtonText="サインイン"
-        formFields={[
-          {
-            type: "username",
-            label: "サインインID *",
-            placeholder: "ユーザ名を入力",
-            required: true,
-          },
-          {
-            type: "password",
-            label: "パスワード *",
-            placeholder: "パスワードを入力",
-            required: true,
-          },
-        ]}
-      />
-      <AmplifyForgotPassword
+      <SignIn />
+      <ForgotPassword />
+      {/* <AmplifyForgotPassword
         slot="forgot-password"
         headerText="パスワードを忘れた"
         usernameAlias="email"
@@ -98,7 +83,7 @@ function App() {
         ]}
         sendButtonText="送信"
         submitButtonText="送信"
-      />
+      /> */}
       <AmplifySignUp
         slot="sign-up"
         headerText="サインアップ"
@@ -135,12 +120,12 @@ function App() {
         <h1>メモ帳</h1>
         <input
           onChange={e => setFormData({ ...formData, 'name': e.target.value})}
-          placeholder="Note name"
+          placeholder="タイトル"
           value={formData.name}
         />
         <input
           onChange={e => setFormData({ ...formData, 'description': e.target.value})}
-          placeholder="Note description"
+          placeholder="内容"
           value={formData.description}
         />
         <button onClick={createNote}>作成</button>
@@ -167,6 +152,7 @@ function App() {
           buttonText="サインアウト"
         />
       </div>
+
     </AmplifyAuthenticator>
   );
 }

@@ -1,15 +1,26 @@
 import React, { useState, useEffect } from 'react';
 import './App.css';
-import { withAuthenticator, AmplifySignIn, AmplifySignOut } from '@aws-amplify/ui-react-v1';
+import {
+  AmplifyAuthenticator
+  , AmplifySignIn
+  , AmplifySignUp
+  , AmplifyForgotPassword
+  , AmplifyConfirmSignUp
+  , AmplifyRequireNewPassword
+  , AmplifySignOut
+} from '@aws-amplify/ui-react-v1';
 import { listNotes } from './graphql/queries';
 import { createNote as createNoteMutation, deleteNote as deleteNoteMutation } from './graphql/mutations';
-import { API, Storage } from 'aws-amplify';
+import { dictionary } from './dictionary.js';
+import { API, Storage, I18n, Auth } from 'aws-amplify';
 
 const initialFormState = { name: '', description: '' }
 
 function App() {
   const [notes, setNotes] = useState([]);
   const [formData, setFormData] = useState(initialFormState);
+  I18n.putVocabularies(dictionary);
+  I18n.setLanguage("ja");
 
   useEffect(() => {
     fetchNotes();
@@ -54,7 +65,7 @@ function App() {
   }
   
   return (
-    <>
+    <AmplifyAuthenticator>
       <AmplifySignIn
         slot="sign-in"
         headerText="サインイン画面"
@@ -74,6 +85,52 @@ function App() {
           },
         ]}
       />
+      <AmplifyForgotPassword
+        slot="forgot-password"
+        headerText="パスワードを忘れた"
+        usernameAlias="email"
+        formFields={[
+          {
+            type: "username",
+            label: "ユーザ名を入力してください",
+            placeholder: "ユーザ名",
+          },
+        ]}
+        sendButtonText="送信"
+        submitButtonText="送信"
+      />
+      <AmplifySignUp
+        slot="sign-up"
+        headerText="サインアップ"
+        haveAccountText=""
+        signInText="サインインに戻る"
+        submitButtonText="アカウント作成"
+
+        formFields={[
+          {
+            type: "username",
+            label: "ユーザ名を入力してください",
+            placeholder: "ユーザ名",
+          },
+          {
+            type: "email",
+            label: "メールアドレスを入力してください",
+            placeholder: "メールアドレス",
+          },
+          {
+            type: "password",
+            label: "パスワードを入力してください",
+            placeholder: "パスワード",
+            inputProps: { required: true, autocomplete: "new-password" },
+          },
+        ]}
+      />
+      <AmplifyRequireNewPassword
+        headerText="新しいパスワードを入力"
+        submitButtonText="送信"
+        slot="require-new-password"
+      />
+      <AmplifyConfirmSignUp headerText="確認コードを入力してください" submitButtonText="送信" slot="confirm-sign-up" />
       <div className="App">
         <h1>メモ帳</h1>
         <input
@@ -105,10 +162,13 @@ function App() {
             ))
           }
         </div>
-        <AmplifySignOut />
+        <AmplifySignOut
+          slot="sign-out"
+          buttonText="サインアウト"
+        />
       </div>
-    </>
+    </AmplifyAuthenticator>
   );
 }
 
-export default withAuthenticator(App);
+export default App;

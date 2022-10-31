@@ -55,7 +55,7 @@ function App() {
   
   return (
     <div className="App">
-      <h1>My Notes App</h1>
+      <h1>メモ帳</h1>
       <input
         onChange={e => setFormData({ ...formData, 'name': e.target.value})}
         placeholder="Note name"
@@ -66,7 +66,7 @@ function App() {
         placeholder="Note description"
         value={formData.description}
       />
-      <button onClick={createNote}>Create Note</button>
+      <button onClick={createNote}>作成</button>
       <input
         type="file"
         onChange={onChange}
@@ -77,7 +77,7 @@ function App() {
             <div key={note.id || note.name}>
               <h2>{note.name}</h2>
               <p>{note.description}</p>
-              <button onClick={() => deleteNote(note)}>Delete note</button>
+              <button onClick={() => deleteNote(note)}>削除</button>
               {
                 note.image && <img src={note.image} style={{width: 400}} alt="" />
               }

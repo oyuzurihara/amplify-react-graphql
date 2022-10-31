@@ -9,6 +9,7 @@ Amplify.configure(config);
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
+  // 自動で危険性を確認
   <React.StrictMode>
     <App />
   </React.StrictMode>
@@ -17,4 +18,5 @@ root.render(
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))
 // or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
+// 計測用指標を取得
 reportWebVitals();

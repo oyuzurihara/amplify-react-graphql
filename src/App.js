@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './App.css';
-import { withAuthenticator, AmplifySignOut } from '@aws-amplify/ui-react-v1';
+import { withAuthenticator, AmplifySignIn, AmplifySignOut } from '@aws-amplify/ui-react-v1';
 import { listNotes } from './graphql/queries';
 import { createNote as createNoteMutation, deleteNote as deleteNoteMutation } from './graphql/mutations';
 import { API, Storage } from 'aws-amplify';
@@ -54,39 +54,60 @@ function App() {
   }
   
   return (
-    <div className="App">
-      <h1>メモ帳</h1>
-      <input
-        onChange={e => setFormData({ ...formData, 'name': e.target.value})}
-        placeholder="Note name"
-        value={formData.name}
+    <>
+      <AmplifySignIn
+        slot="sign-in"
+        headerText="サインイン画面"
+        submitButtonText="サインイン"
+        formFields={[
+          {
+            type: "username",
+            label: "サインインID *",
+            placeholder: "ユーザ名を入力",
+            required: true,
+          },
+          {
+            type: "password",
+            label: "パスワード *",
+            placeholder: "パスワードを入力",
+            required: true,
+          },
+        ]}
       />
-      <input
-        onChange={e => setFormData({ ...formData, 'description': e.target.value})}
-        placeholder="Note description"
-        value={formData.description}
-      />
-      <button onClick={createNote}>作成</button>
-      <input
-        type="file"
-        onChange={onChange}
-      />
-      <div style={{marginBottom: 30}}>
-        {
-          notes.map(note => (
-            <div key={note.id || note.name}>
-              <h2>{note.name}</h2>
-              <p>{note.description}</p>
-              <button onClick={() => deleteNote(note)}>削除</button>
-              {
-                note.image && <img src={note.image} style={{width: 400}} alt="" />
-              }
-            </div>
-          ))
-        }
+      <div className="App">
+        <h1>メモ帳</h1>
+        <input
+          onChange={e => setFormData({ ...formData, 'name': e.target.value})}
+          placeholder="Note name"
+          value={formData.name}
+        />
+        <input
+          onChange={e => setFormData({ ...formData, 'description': e.target.value})}
+          placeholder="Note description"
+          value={formData.description}
+        />
+        <button onClick={createNote}>作成</button>
+        <input
+          type="file"
+          onChange={onChange}
+        />
+        <div style={{marginBottom: 30}}>
+          {
+            notes.map(note => (
+              <div key={note.id || note.name}>
+                <h2>{note.name}</h2>
+                <p>{note.description}</p>
+                <button onClick={() => deleteNote(note)}>削除</button>
+                {
+                  note.image && <img src={note.image} style={{width: 400}} alt="" />
+                }
+              </div>
+            ))
+          }
+        </div>
+        <AmplifySignOut />
       </div>
-      <AmplifySignOut />
-    </div>
+    </>
   );
 }
 

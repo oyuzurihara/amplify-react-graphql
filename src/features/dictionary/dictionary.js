@@ -15,5 +15,6 @@ export const dictionary = {
       "Enter code": "検証コードを入力",
       "New password": "新しいパスワード",
       "Enter your new password": "新しいパスワードを入力",
+      "Enter your password": "パスワードを入力",
     },
 };

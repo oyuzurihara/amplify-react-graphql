@@ -12,7 +12,7 @@ import {
 import { listNotes } from './graphql/queries';
 import { createNote as createNoteMutation, deleteNote as deleteNoteMutation } from './graphql/mutations';
 import { dictionary } from './dictionary.js';
-import { API, Storage, I18n, Auth } from 'aws-amplify';
+import { API, Storage, I18n } from 'aws-amplify';
 
 const initialFormState = { name: '', description: '' }
 

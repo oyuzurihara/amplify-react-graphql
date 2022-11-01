@@ -9,7 +9,7 @@ const initialFormState = { name: '', description: '' }
 
 export function MainView(){
 
-    // インスタンス生成？
+    // インスタンス生成？ -> たぶんコンストラクタ
     // useState([])の一つ目の値をnotesに二つ目の値をsetNotesに代入
     //const [状態変数, 状態を変更するための関数] = useState(状態の初期値);
     const [notes, setNotes] = useState([]);
@@ -65,7 +65,7 @@ export function MainView(){
       <div className="App">
         <h1>メモ帳</h1>
         <input
-          onChange={e => setFormData({ ...formData, 'name': e.target.value})}
+          onChange={e => {console.log(e); setFormData({ ...formData, 'name': e.target.value})}}
           placeholder="タイトル"
           value={formData.name}
         />

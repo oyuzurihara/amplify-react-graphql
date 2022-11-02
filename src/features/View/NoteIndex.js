@@ -3,17 +3,14 @@ import { listNotes } from '../../graphql/queries';
 import { createNote as createNoteMutation, deleteNote as deleteNoteMutation } from '../../graphql/mutations';
 import { API, Storage } from 'aws-amplify';
 import { SignOut } from '../Auth/SignOut.js';
+import { Link } from 'react-router-dom';
 
 // 初期値はなし
 const initialFormState = { name: '', description: '' }
 
-export function MainView(){
+export function NoteIndex(){
 
-    // インスタンス生成？ -> たぶんコンストラクタ
-    // useState([])の一つ目の値をnotesに二つ目の値をsetNotesに代入
-    //const [状態変数, 状態を変更するための関数] = useState(状態の初期値);
     const [notes, setNotes] = useState([]);
-    // useState(initialFormState)の一つ目の値をformDataに二つ目の値をssetFormDataに代入
     const [formData, setFormData] = useState(initialFormState);
   
     useEffect(() => {
@@ -60,7 +57,7 @@ export function MainView(){
       setNotes([ ...notes, formData ]);
       setFormData(initialFormState);
     }
-
+    
     return(
       <div className="App">
         <h1>メモ帳</h1>
@@ -83,9 +80,10 @@ export function MainView(){
           {
             notes.map(note => (
               <div key={note.id || note.name}>
-                <h2>{note.name}</h2>
-                {/* ここを分割すればTRAINING-43が完了 */}
-                <p>{note.description}</p>
+                <Link to={`${note.id}`} state={{description: `${note.description}`}}>
+                  <h2>{note.name}</h2>
+                </Link>
+                { JSON.stringify(note,null,'\t') }
                 <button onClick={() => deleteNote(note)}>削除</button>
                 {
                   note.image && <img src={note.image} style={{width: 400}} alt="" />

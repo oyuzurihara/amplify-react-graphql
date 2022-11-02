@@ -80,7 +80,7 @@ export function NoteIndex(){
           {
             notes.map(note => (
               <div key={note.id || note.name}>
-                <Link to={`${note.id}`} state={{description: `${note.description}`}}>
+                <Link to={`${note.id}`} state={{description: `${note.description}`, createdAt: `${note.createdAt}`, updatedAt: `${note.updatedAt}`}}>
                   <h2>{note.name}</h2>
                 </Link>
                 { JSON.stringify(note,null,'\t') }
